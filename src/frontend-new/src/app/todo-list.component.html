@@ -1,0 +1,39 @@
+<div class="todo-list-container">
+  <h1>Todo List</h1>
+
+  <form #todoForm="ngForm" (ngSubmit)="createTodo(todoForm)" novalidate>
+    <div class="form-group">
+      <input type="text" id="title" class="form-control" placeholder="Type a todo and press enter..."
+             required
+             name="title" [(ngModel)]="newTodo.title"
+             #title="ngModel" >
+      <div *ngIf="title.errors && (title.dirty || title.touched)"
+           class="alert alert-danger">
+        <div [hidden]="!title.errors['required']"> Title is required.
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <ul class="todo-items">
+    <li *ngFor="let todo of todos" [class.completed]="todo.completed">
+      <input type="checkbox" [checked]="todo.completed" (change)="toggleCompleted(todo)">
+      <span *ngIf="!editingTodo || editingTodo.id !== todo.id" (click)="editTodo(todo)">{{ todo.title }}</span>
+      <input *ngIf="editingTodo && editingTodo.id === todo.id"
+             type="text"
+             [(ngModel)]="editingTodo.title"
+             (blur)="updateTodo()"
+             (keyup.enter)="updateTodo()">
+      <button class="delete-btn" (click)="deleteTodo(todo.id)">Delete</button>
+    </li>
+  </ul>
+
+  <div *ngIf="selectedTodo">
+    <h2>Selected Todo</h2>
+    <p>ID: {{ selectedTodo.id }}</p>
+    <p>Title: {{ selectedTodo.title }}</p>
+    <p>Completed: {{ selectedTodo.completed }}</p>
+    <p>Created At: {{ selectedTodo.createdAt | date:'short' }}</p>
+    <button (click)="selectedTodo = null">Close</button>
+  </div>
+</div>

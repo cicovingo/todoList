@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  mongodb: # MongoDB Servisi
+    image: mongo:6-jammy
+    restart: always
+    ports:
+      - "27017:27017" # Host:Container portu
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb # Backend başlamadan önce mongodb'nin hazır olmasını bekle
+    volumes:
+      - backend_data:/app/data # SQLite veritabanı dosyası için kalıcı depolama
+        # Bu, Docker container'ı içindeki /app/data dizinine bağlanacak
+      # ve SQLite verisi burada tutulacak.
+
+  frontend:
+    build:
+      context: ./src/frontend-new
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data: # MongoDB verileri için volume
+  backend_data: # SQLite verileri için volume
