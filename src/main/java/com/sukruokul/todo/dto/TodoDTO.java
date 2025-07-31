@@ -17,4 +17,11 @@ public class TodoDTO {
     @NotNull(message = "Completed status cannot be null")
     private boolean completed;
     private LocalDateTime createdAt;
+
+    public TodoDTO(String id, String title, @NotNull(message = "Completed status cannot be null") boolean completed, LocalDateTime createdAt) {
+        this.id = id;
+        this.title = title;
+        this.completed = completed;
+        this.createdAt = createdAt;
+    }
 }
