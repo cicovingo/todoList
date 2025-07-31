@@ -96,10 +96,10 @@ Backend uygulaması çalışırken, Swagger UI aracılığıyla API dokümantasy
 
 Uygulama açıldığında:
 
-* Metin kutusuna bir todo yazın ve Enter tuşuna basın veya "Add Todo" butonuna tıklayın. Liste eklenir.
-* Listede yer alan bir todo'yu tamamlandı olarak işaretlemek için yanındaki kutuya tıklayın.
-* Listede yer alan bir todo'yu düzenlemek için ilgili todo kaydına tıklayın ve title alanını güncelleyip enter butonuna basın.
-* Bir todo'yu silmek için yanındaki delete butonuna tıklayın.
+* Metin kutusuna bir todo yazın ve "Ekle" butonuna tıklayın. Liste eklenir.
+* Listede yer alan bir todo'yu tamamlandı olarak işaretlemek için yanındaki kutuya tıklayın. Üstü çizili olur ve yapıldı anlamı taşır.
+* Listede yer alan bir todo'yu düzenlemek için ilgili todo kaydının yanındaki kalem simgesine tıklayın ve açılan dialogda title alanını güncelleyip güncelle butonuna basın.
+* Bir todo'yu silmek için yanındaki çöp kutusu butonuna tıklayın ve açılan dialogda evet butonuna basın.
 
 ## Ek Bilgiler
 
@@ -108,6 +108,7 @@ Uygulama açıldığında:
 * **CORS Politikası:** Backend, Angular uygulamasının varsayılan adresi olan `http://localhost:4200` adresinden gelen isteklere izin verecek şekilde yapılandırılmıştır.
 * **Hata Ayıklama:** Geliştirme sırasında herhangi bir sorunla karşılaşırsanız, backend ve frontend konsol çıktılarını dikkatlice inceleyin.
 
-![Todo Örnek 1](screenshots/todo-app-1.png)
-![Todo Örnek 2](screenshots/todo-app-2.png)
+![Todo Ekleme Örnek](screenshots/todo-app-1.png)
+![Todo Güncelleme Örnek](screenshots/todo-app-2.png)
+![Todo Silme Örnek](screenshots/todo-app-3.png)
 ![Docker Takibi](screenshots/docker-containers.png)

@@ -1,39 +1,122 @@
-<div class="todo-list-container">
-  <h1>Todo List</h1>
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
 
-  <form #todoForm="ngForm" (ngSubmit)="createTodo(todoForm)" novalidate>
-    <div class="form-group">
-      <input type="text" id="title" class="form-control" placeholder="Type a todo and press enter..."
-             required
-             name="title" [(ngModel)]="newTodo.title"
-             #title="ngModel" >
-      <div *ngIf="title.errors && (title.dirty || title.touched)"
-           class="alert alert-danger">
-        <div [hidden]="!title.errors['required']"> Title is required.
+<div class="todo-content p-card">
+  <div class="p-card-title p-text-center">
+    <h1>My Todos</h1>
+  </div>
+  <div class="p-card-content">
+    <div class="p-field p-fluid">
+      <form #todoForm="ngForm" (ngSubmit)="addTodo()" novalidate>
+        <div class="p-inputgroup">
+          <input
+            pInputText
+            id="title"
+            type="text"
+            placeholder="Type a todo and press enter..."
+            [(ngModel)]="newTodo.title"
+            required
+            name="title"
+            #title="ngModel"
+          />
+          <button
+            pButton
+            type="submit"
+            label="Ekle"
+            icon="pi pi-plus"
+            [disabled]="!todoForm.form.valid"
+          ></button>
         </div>
+        <small class="p-error" *ngIf="title.invalid && (title.dirty || title.touched)">
+          Başlık gereklidir.
+        </small>
+      </form>
+    </div>
+
+    <div class="p-mt-3">
+      <ul class="todo-list">
+        <li
+          *ngFor="let todo of todos"
+          [class.completed]="todo.completed"
+          class="p-py-2 p-d-flex p-ai-center"
+        >
+          <div class="p-col-fixed" style="width: 40px">
+            <p-checkbox
+              [(ngModel)]="todo.completed"
+              [binary]="true"
+              (onChange)="toggleCompleted(todo)"
+              inputId="todoCheckbox_{{ todo.id }}"
+            ></p-checkbox>
+          </div>
+          <div
+            class="p-col p-text-truncate p-ml-2"
+            [class.todo-title-completed]="todo.completed"
+          >
+            <label for="todoCheckbox_{{ todo.id }}" style="cursor: pointer;">
+              {{ todo.title }}
+            </label>
+          </div>
+          <div class="p-col-fixed todo-actions" style="width: 100px;">
+            <button
+              pButton
+              pRipple
+              type="button"
+              icon="pi pi-pencil"
+              class="p-button-rounded p-button-text p-button-sm p-mr-2"
+              (click)="editTodo(todo)"
+              title="Düzenle"
+            ></button>
+            <button
+              pButton
+              pRipple
+              type="button"
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-text p-button-danger p-button-sm"
+              (click)="confirmDelete(todo)"
+              title="Sil"
+            ></button>
+          </div>
+        </li>
+      </ul>
+      <div *ngIf="todos.length === 0" class="p-text-center p-text-secondary p-mt-4 no-todos-message">
+        Henüz bir todo eklenmemiş.
       </div>
     </div>
-  </form>
-
-  <ul class="todo-items">
-    <li *ngFor="let todo of todos" [class.completed]="todo.completed">
-      <input type="checkbox" [checked]="todo.completed" (change)="toggleCompleted(todo)">
-      <span *ngIf="!editingTodo || editingTodo.id !== todo.id" (click)="editTodo(todo)">{{ todo.title }}</span>
-      <input *ngIf="editingTodo && editingTodo.id === todo.id"
-             type="text"
-             [(ngModel)]="editingTodo.title"
-             (blur)="updateTodo()"
-             (keyup.enter)="updateTodo()">
-      <button class="delete-btn" (click)="deleteTodo(todo.id)">Delete</button>
-    </li>
-  </ul>
-
-  <div *ngIf="selectedTodo">
-    <h2>Selected Todo</h2>
-    <p>ID: {{ selectedTodo.id }}</p>
-    <p>Title: {{ selectedTodo.title }}</p>
-    <p>Completed: {{ selectedTodo.completed }}</p>
-    <p>Created At: {{ selectedTodo.createdAt | date:'short' }}</p>
-    <button (click)="selectedTodo = null">Close</button>
   </div>
 </div>
+
+<p-dialog
+  header="Todo Düzenle"
+  [(visible)]="displayEditDialog"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+  (onHide)="clearEditing()"
+  *ngIf="displayEditDialog"
+>
+  <div class="p-fluid">
+    <div class="p-field">
+      <label for="editTitle">Başlık</label>
+      <input
+        pInputText
+        id="editTitle"
+        type="text"
+        [(ngModel)]="editingTodo!.title" required name="editTitle"
+        #editTitle="ngModel"
+      />
+      <small class="p-error" *ngIf="editTitle.invalid && (editTitle.dirty || editTitle.touched)">
+        Başlık gereklidir.
+      </small>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button
+      label="İptal"
+      icon="pi pi-times"
+      styleClass="p-button-text"
+      (click)="clearEditing()"
+    ></p-button>
+    <p-button label="Kaydet" icon="pi pi-check" (click)="updateTodo()"></p-button>
+  </ng-template>
+</p-dialog>
