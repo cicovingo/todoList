@@ -98,12 +98,16 @@ Uygulama açıldığında:
 
 * Metin kutusuna bir todo yazın ve Enter tuşuna basın veya "Add Todo" butonuna tıklayın. Liste eklenir.
 * Listede yer alan bir todo'yu tamamlandı olarak işaretlemek için yanındaki kutuya tıklayın.
-* Listede yer alan bir todo'yu düzenlemek için ilgili todo kaydına tıklayın ve kayıt ekranındaki title alanını güncelleyip enter butonuna basın.
+* Listede yer alan bir todo'yu düzenlemek için ilgili todo kaydına tıklayın ve title alanını güncelleyip enter butonuna basın.
 * Bir todo'yu silmek için yanındaki delete butonuna tıklayın.
 
 ## Ek Bilgiler
 
 * **Veritabanı:** Uygulama, geliştirme ortamında SQLite ve MongoDb kullanır. SQLite veritabanı dosyası `data/todos.db` konumunda bulunur. MongoDb kurulumu yapılıp `application.properties` dosyasında yer alan konfigürasyonlar yapılır.
-* **Docker Çalışmasının Takibi:** Docker çalışmasının takibi ve bazı ekran görüntüleri de projede mevcuttur.
+* **Docker Çalışmasının Takibi:** Docker çalışmasının takibi ve bazı ekran görüntüleri de projede mevcuttur. MongoDb ayrı makine gibi SqlLite ise backend ile birlikte aynı makinededir.
 * **CORS Politikası:** Backend, Angular uygulamasının varsayılan adresi olan `http://localhost:4200` adresinden gelen isteklere izin verecek şekilde yapılandırılmıştır.
 * **Hata Ayıklama:** Geliştirme sırasında herhangi bir sorunla karşılaşırsanız, backend ve frontend konsol çıktılarını dikkatlice inceleyin.
+
+![Todo Örnek 1](screenshots/todo-app-1.png)
+![Todo Örnek 2](screenshots/todo-app-2.png)
+![Docker Takibi](screenshots/docker-containers.png)
